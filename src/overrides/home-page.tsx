@@ -1,344 +1,423 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpRight, Check, FileText, Radio, Sparkles, Upload, UserPlus } from 'lucide-react'
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  FileText,
+  Radio,
+  Sparkles,
+  Upload,
+  UserPlus,
+  Newspaper,
+  Globe,
+  TrendingUp,
+  Clock,
+  ChevronRight,
+  Megaphone,
+  BarChart3,
+  Search,
+  Shield,
+  Zap,
+} from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { fetchTaskPosts } from '@/lib/task-data'
 import { siteContent } from '@/config/site.content'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { cn } from '@/lib/utils'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 
 export const HOME_PAGE_OVERRIDE_ENABLED = true
 
-const brandMarks = [
-  { label: "Sainsbury's", src: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=120&fit=crop&q=60&auto=format' },
-  { label: 'The Guardian', src: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=120&fit=crop&q=60&auto=format' },
-  { label: 'Yahoo', src: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=120&fit=crop&q=60&auto=format' },
-  { label: 'Reuters', src: 'https://images.unsplash.com/photo-1585282263867-b58edf6f69e4?w=400&h=120&fit=crop&q=60&auto=format' },
-  { label: 'Bloomberg', src: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&h=120&fit=crop&q=60&auto=format' },
-  { label: 'Forbes', src: 'https://images.unsplash.com/photo-1557804506-669a67965e7e?w=400&h=120&fit=crop&q=60&auto=format' },
+const mediaPartners = [
+  { label: 'Reuters' },
+  { label: 'Bloomberg' },
+  { label: 'Forbes' },
+  { label: 'The Guardian' },
+  { label: 'Yahoo News' },
+  { label: 'AP News' },
+  { label: 'Business Wire' },
+  { label: 'PR Newswire' },
 ] as const
 
 const services = [
-  { title: 'News distribution', body: 'Syndicate headlines with consistent structure for wire-style scanning.' },
-  { title: 'Translation', body: 'Localize your announcement while preserving quotes and key facts.' },
-  { title: 'Copywriting', body: 'Polish the lede, boilerplate, and CTA to read press-ready on day one.' },
-  { title: 'Extra distribution', body: 'Add target clusters when you need broader industry visibility.' },
-  { title: 'Disclosure services', body: 'Keep regulated announcements aligned with the right disclosure rhythm.' },
-  { title: 'Media database', body: 'Line up outlets and contacts that match the story you are shipping.' },
+  { title: 'Instant Distribution', body: 'Reach 500+ verified journalists and media outlets across print, digital, and broadcast with a single submission.', icon: Megaphone },
+  { title: 'Google News Indexing', body: 'Every release gets an SEO-optimised page submitted to Google News, Bing News, and major search engines automatically.', icon: Search },
+  { title: 'Multilingual Reach', body: 'Professional translation into 20+ languages while preserving quotes, facts, and brand tone for global audiences.', icon: Globe },
+  { title: 'Editorial Copywriting', body: 'Our editors polish your headline, lede, and boilerplate so your release reads press-ready from day one.', icon: FileText },
+  { title: 'Real-Time Analytics', body: 'Track views, media pickups, journalist opens, and social shares from a single dashboard updated in real time.', icon: BarChart3 },
+  { title: 'Compliance & Disclosure', body: 'Keep regulated announcements aligned with SEC, FCA, and regional disclosure requirements.', icon: Shield },
+] as const
+
+const stats = [
+  { value: '50,000+', label: 'Releases Published' },
+  { value: '500+', label: 'Media Outlets' },
+  { value: '4 hrs', label: 'Avg. Pickup Time' },
+  { value: '98%', label: 'Client Satisfaction' },
+] as const
+
+const testimonials = [
+  { quote: 'Presslyy got our product launch picked up by three national outlets within 24 hours. The distribution is genuinely impressive.', name: 'Michael Torres', role: 'VP of Communications, NovaTech Inc.' },
+  { quote: 'We replaced our expensive PR agency with Presslyy for routine announcements. Same reach, a fraction of the cost.', name: 'Amanda Chen', role: 'Marketing Director, FinScale Group' },
+  { quote: 'The editorial team polished our release and it read like it came straight from a seasoned PR desk. Highly recommend.', name: 'David Okonkwo', role: 'Founder & CEO, BrightPath Ventures' },
 ] as const
 
 export async function HomePageOverride() {
   const posts = await fetchTaskPosts('mediaDistribution', 10, { fresh: true })
 
   return (
-    <div className="min-h-screen bg-white text-[var(--brand-ink)]">
+    <div className="min-h-screen bg-white text-[#1a0e00]">
       <NavbarShell />
-      <SchemaJsonLd
-        data={[
-          { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_CONFIG.name, url: SITE_CONFIG.baseUrl },
-        ]}
-      />
+      <SchemaJsonLd data={[
+        { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_CONFIG.name, url: SITE_CONFIG.baseUrl },
+        { '@context': 'https://schema.org', '@type': 'Organization', name: SITE_CONFIG.name, url: SITE_CONFIG.baseUrl, description: SITE_CONFIG.description },
+      ]} />
       <main>
-        {/* Hero */}
-        <section className="relative overflow-hidden">
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=2200&h=1100&fit=crop&q=80&auto=format')",
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-            }}
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(120deg, rgba(22,8,10,0.62) 0%, rgba(58,13,14,0.48) 42%, rgba(104,31,14,0.42) 100%)',
-            }}
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute -left-1/3 top-0 h-full w-[160%] opacity-35 [animation:ena-dots_6s_ease-in-out_infinite]"
-            style={{
-              backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.22) 0.5px, transparent 0.6px)',
-              backgroundSize: '10px 10px',
-            }}
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(to top, rgba(28, 7, 9, 0.5), rgba(28, 7, 9, 0.1) 45%, transparent)',
-            }}
-            aria-hidden
-          />
-          <div className="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 sm:py-24">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/90 [text-shadow:0_1px_2px_rgba(0,0,0,0.2)]">
-              {siteContent.hero.badge}
-            </p>
-            <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.25)] sm:text-5xl md:text-6xl">
-              {siteContent.hero.title[0]}
-            </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-white/95 [text-shadow:0_1px_12px_rgba(0,0,0,0.2)] sm:text-lg">
-              {siteContent.hero.description}
-            </p>
-            <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4">
-              <a
-                href={siteContent.hero.primaryCta.href}
-                className="inline-flex items-center justify-center rounded-full bg-[#0f766e] px-8 py-3.5 text-sm font-bold text-white shadow-lg shadow-black/20 transition [transition-timing-function:var(--motion-ease)] hover:-translate-y-0.5 hover:bg-[#0d9488]"
-              >
-                {siteContent.hero.primaryCta.label}
-              </a>
-              <Link
-                href={siteContent.hero.secondaryCta.href}
-                className="inline-flex items-center justify-center rounded-full border-2 border-white/85 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition [transition-timing-function:var(--motion-ease)] hover:bg-white/20"
-              >
-                {siteContent.hero.secondaryCta.label}
-              </Link>
-            </div>
-          </div>
-        </section>
 
-        {/* How it works */}
-        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <div className="max-w-2xl">
-            <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--brand-ink)] sm:text-4xl">
-              {siteContent.home.introTitle}
-            </h2>
-            <p className="mt-3 text-[var(--brand-muted)]">{siteContent.home.sidePoints[0]}</p>
-          </div>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {[
-              { step: '1', title: 'Add profile', blurb: 'Create your org profile, boilerplate, and contact surface.', icon: UserPlus, tone: 'from-slate-50/90 to-white' },
-              { step: '2', title: 'Upload release media', blurb: 'Drop your headline, body, quotes, and hero imagery.', icon: Upload, tone: 'from-slate-50/90 to-white' },
-              { step: '3', title: 'Publish', blurb: 'Your wire page goes live in the archive—clean and scannable.', icon: Radio, tone: 'from-slate-50/90 to-white' },
-            ].map((item) => (
-              <div
-                key={item.step}
-                className="group flex flex-col rounded-2xl border border-slate-200/80 bg-white p-6 shadow-[0_12px_34px_rgba(30,42,68,0.08)] [animation:ena-fade-up_0.6s_ease_forwards] motion-reduce:animate-none"
-                style={{ animationDelay: `${Number(item.step) * 80}ms` }}
-              >
-                <div
-                  className={cn(
-                    'mb-4 flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-gradient-to-br text-[#9a031e]',
-                    item.tone,
-                  )}
-                >
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#e36414]">Step {item.step}</p>
-                <h3 className="mt-2 font-display text-xl font-bold text-[var(--brand-ink)]">{item.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-[var(--brand-muted)]">{item.blurb}</p>
-                <div className="mt-5 rounded-xl border border-dashed border-slate-200/80 bg-slate-50/60 p-3">
-                  <div className="h-2 w-1/2 rounded bg-[#e36414]/35" />
-                  <div className="mt-2 h-2 w-3/4 rounded bg-slate-200/70" />
-                  <div className="mt-2 h-2 w-2/3 rounded bg-slate-100/90" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* ── HERO ── dark split layout ─────────────────────────────── */}
+        <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #0f0700 0%, #1e0c00 40%, #2d1200 100%)' }}>
+          {/* Subtle grid */}
+          <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.8) 1px,transparent 1px)', backgroundSize: '60px 60px' }} aria-hidden />
+          {/* Orange glow top-left */}
+          <div className="pointer-events-none absolute -left-32 -top-32 h-[500px] w-[500px] rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #F05A28 0%, transparent 70%)' }} aria-hidden />
+          {/* Amber glow bottom-right */}
+          <div className="pointer-events-none absolute -bottom-20 -right-20 h-[400px] w-[400px] rounded-full opacity-15" style={{ background: 'radial-gradient(circle, #F7931E 0%, transparent 70%)' }} aria-hidden />
 
-        {/* Latest */}
-        <section className="border-y border-slate-200/80 bg-white">
-          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+            <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+
+              {/* Left copy */}
               <div>
-                <h2 className="font-display text-2xl font-bold text-[var(--brand-ink)] sm:text-3xl">
-                  {siteContent.taskSectionHeading}
-                </h2>
-                <p className="mt-2 text-sm text-[var(--brand-muted)]">{siteContent.taskSectionDescriptionSuffix}</p>
-              </div>
-              <Link
-                href="/updates"
-                className="inline-flex items-center gap-2 rounded-full border border-[#e36414]/35 bg-white px-4 py-2 text-sm font-semibold text-[#9a031e] shadow-sm transition hover:-translate-y-0.5 hover:border-[#e36414]/55 hover:bg-[#fff8f4]"
-              >
-                Release archive
-                <FileText className="h-4 w-4" />
-              </Link>
-            </div>
-            <ul className="mt-10 divide-y divide-slate-200/80">
-              {(posts.length ? posts : []).map((post) => {
-                return (
-                  <li key={post.id} className="[transition:background_0.2s_ease] hover:bg-slate-100/70">
-                    <Link href={`/updates/${post.slug}`} className="group flex items-start gap-4 py-4 sm:gap-6 sm:py-5">
-                      <p className="min-w-0 flex-1 text-base font-semibold leading-snug text-[var(--brand-ink)] group-hover:underline sm:text-lg">
-                        {post.title}
-                      </p>
-                      <FileText
-                        className="mt-1 h-4 w-4 shrink-0 text-rose-300/90 [transition:color_0.2s] group-hover:text-[#9a031e]"
-                        aria-hidden
-                      />
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-            {posts.length === 0 && (
-              <p className="mt-6 rounded-2xl border border-dashed border-slate-300/90 bg-slate-100/60 p-6 text-sm text-[var(--brand-muted)]">
-                New releases will appear here as they are published.{' '}
-                <Link className="font-semibold text-[var(--brand-red)] underline" href="/updates">
-                  Open the full archive
-                </Link>
-                .
-              </p>
-            )}
-          </div>
-        </section>
-
-        {/* Brands */}
-        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <h2 className="text-center font-display text-2xl font-bold text-[var(--brand-ink)] sm:text-3xl">We work with the brands you love.</h2>
-          <p className="mx-auto mt-2 max-w-2xl text-center text-sm text-[var(--brand-muted)]">
-            Representative media surfaces and distribution contexts—illustrated with neutral photography for a calm partner strip.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-8">
-            {brandMarks.map((b) => (
-              <div
-                key={b.label}
-                className="group relative h-10 w-28 overflow-hidden rounded-lg border border-slate-200 bg-white sm:h-11 sm:w-32"
-              >
-                <Image
-                  src={b.src}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 45vw, 120px"
-                  className="object-cover object-center grayscale [transition:filter_0.35s] group-hover:grayscale-0"
-                />
-                <span className="sr-only">{b.label}</span>
-                <span
-                  className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-white/80 to-transparent pb-0.5 text-[0.5rem] font-bold uppercase tracking-wider text-neutral-500 sm:text-[0.55rem]"
-                  aria-hidden
-                >
-                  {b.label}
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#F05A28]/50 bg-[#F05A28]/15 px-4 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.28em] text-[#F7931E]">
+                  <Radio className="h-3 w-3" /> {siteContent.hero.badge}
                 </span>
-              </div>
-            ))}
-          </div>
-        </section>
 
-        {/* Services + phone */}
-        <section className="border-y border-slate-200/80 bg-white">
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#c2410c]/90">Our services</p>
-              <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-[var(--brand-ink)] sm:text-4xl">Build reach without losing clarity.</h2>
-              <ul className="mt-8 space-y-4">
-                {services.map((s) => (
-                  <li
-                    key={s.title}
-                    className="flex gap-3 rounded-xl border border-slate-200/70 bg-white p-4 shadow-sm [transition:box-shadow_0.25s] hover:shadow-md"
-                  >
-                    <span className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-[#e36414]/15 text-[#9a031e]">
-                      <Check className="h-3.5 w-3.5" />
+                <h1 className="mt-5 font-display text-4xl font-bold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
+                  Get Your Story{' '}
+                  <span className="relative inline-block">
+                    <span style={{ WebkitTextFillColor: 'transparent', WebkitBackgroundClip: 'text', backgroundClip: 'text', backgroundImage: 'linear-gradient(90deg, #F05A28, #F7931E)' }}>
+                      Covered
                     </span>
-                    <div>
-                      <p className="font-semibold text-[var(--brand-ink)]">{s.title}</p>
-                      <p className="mt-1 text-sm leading-7 text-[var(--brand-muted)]">{s.body}</p>
+                    <span className="absolute -bottom-1 left-0 right-0 h-[3px] rounded-full" style={{ background: 'linear-gradient(90deg, #F05A28, #F7931E)' }} />
+                  </span>{' '}
+                  by the Media That Matters
+                </h1>
+
+                <p className="mt-5 max-w-lg text-base leading-8 text-white/65 sm:text-lg">
+                  {siteContent.hero.description}
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a href={siteContent.hero.primaryCta.href} className="inline-flex items-center gap-2 rounded-full bg-[#F05A28] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#F05A28]/40 transition hover:-translate-y-0.5 hover:bg-[#d44820]">
+                    {siteContent.hero.primaryCta.label} <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                  <Link href={siteContent.hero.secondaryCta.href} className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-7 py-3.5 text-sm font-semibold text-white/90 backdrop-blur-sm transition hover:bg-white/15">
+                    {siteContent.hero.secondaryCta.label}
+                  </Link>
+                </div>
+
+                {/* Stats */}
+                <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {stats.map((s) => (
+                    <div key={s.label} className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4 backdrop-blur-sm">
+                      <p className="font-display text-2xl font-bold text-[#F7931E]">{s.value}</p>
+                      <p className="mt-1 text-[0.68rem] text-white/45">{s.label}</p>
                     </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="relative justify-self-center lg:justify-self-end">
-              <div className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-[#e36414]/20 blur-2xl" aria-hidden />
-              <div className="relative w-[min(100%,320px)]">
-                <Image
-                  src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900&h=1200&fit=crop&q=60&auto=format"
-                  alt="Mobile view of a news and press experience"
-                  width={640}
-                  height={820}
-                  className="h-auto w-full rounded-[2rem] object-cover shadow-2xl shadow-[#1a0a0d]/20 ring-1 ring-slate-300/60"
-                />
-                <div className="absolute inset-x-6 top-6 rounded-2xl border border-white/25 bg-black/20 p-3 text-[0.6rem] font-bold uppercase tracking-widest text-white/95 backdrop-blur-sm">
-                  {SITE_CONFIG.name}
+                  ))}
                 </div>
               </div>
+
+              {/* Right: live wire mockup card */}
+              <div className="relative hidden lg:block">
+                <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full opacity-30" style={{ background: 'radial-gradient(circle, #F05A28, transparent 70%)' }} aria-hidden />
+                <div className="absolute -bottom-8 -left-8 h-28 w-28 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #F7931E, transparent 70%)' }} aria-hidden />
+
+                <div className="relative rounded-3xl border border-white/10 bg-white/6 p-6 shadow-[0_40px_100px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+                  {/* Header */}
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F05A28] px-3 py-1 text-[0.62rem] font-bold uppercase tracking-widest text-white">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" /> Live Wire
+                    </span>
+                    <span className="text-[0.62rem] text-white/35">press.presslyy.com</span>
+                  </div>
+
+                  {/* Release rows */}
+                  <div className="mt-4 space-y-2.5">
+                    {[
+                      { cat: 'Technology', title: 'Acme Corp Raises $40M Series B to Expand AI Platform', time: '2 min ago' },
+                      { cat: 'Finance', title: 'GlobalBank Reports Record Q3 Earnings, Beats Estimates', time: '18 min ago' },
+                      { cat: 'Healthcare', title: 'MedTech Startup Receives FDA Clearance for Wearable Device', time: '1 hr ago' },
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start gap-3 rounded-xl border border-white/8 bg-white/5 p-3.5">
+                        <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F05A28]/25">
+                          <Newspaper className="h-3.5 w-3.5 text-[#F7931E]" />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-[#F7931E]">{item.cat}</p>
+                          <p className="mt-0.5 text-[0.82rem] font-semibold leading-snug text-white/90">{item.title}</p>
+                          <p className="mt-1 text-[0.62rem] text-white/35">{item.time}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Pickup bar */}
+                  <div className="mt-4 flex items-center justify-between rounded-xl border border-[#F7931E]/25 bg-[#F7931E]/10 px-4 py-3">
+                    <div>
+                      <p className="text-[0.78rem] font-bold text-[#F7931E]">📈 12 media pickups today</p>
+                      <p className="mt-0.5 text-[0.62rem] text-white/40">Reuters · Bloomberg · Forbes · +9 more</p>
+                    </div>
+                    <TrendingUp className="h-5 w-5 text-[#F7931E]" />
+                  </div>
+                </div>
+
+                {/* Floating badge */}
+                <div className="absolute -left-7 top-1/2 -translate-y-1/2 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-2xl">
+                  <p className="text-[0.75rem] font-bold text-[#F05A28]">✓ Editorial reviewed</p>
+                  <p className="mt-0.5 text-[0.62rem] text-gray-500">Ready for distribution</p>
+                </div>
+              </div>
+
             </div>
           </div>
-          <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-            <div className="grid gap-4 md:grid-cols-3">
-              {['Hassle free', 'Rapid support', 'Lowest pricing'].map((t) => (
-                <div
-                  key={t}
-                  className="rounded-2xl border border-slate-200/80 bg-white p-6 text-center text-[var(--brand-ink)] shadow-[0_8px_30px_rgba(40,52,76,0.06)] [transition:transform_0.25s_var(--motion-ease)] hover:-translate-y-0.5"
-                >
-                  <p className="text-lg font-bold text-[#9a031e]">{t}</p>
-                  <p className="mt-2 text-sm text-[var(--brand-muted)]">Built for small teams with enterprise-grade publishing habits.</p>
+        </section>
+
+        {/* ── MEDIA PARTNERS ── white strip ────────────────────────── */}
+        <section className="border-b border-gray-100 bg-white">
+          <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+            <p className="mb-6 text-center text-[0.68rem] font-bold uppercase tracking-[0.3em] text-gray-400">
+              Your releases reach these outlets and thousands more
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+              {mediaPartners.map((p) => (
+                <span key={p.label} className="text-sm font-bold tracking-wide text-gray-300 transition hover:text-gray-500">
+                  {p.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── HOW IT WORKS ── light gray bg ────────────────────────── */}
+        <section className="bg-gray-50">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <div className="text-center">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#F05A28]/10 px-4 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-[#F05A28]">
+                {siteContent.home.introBadge}
+              </span>
+              <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                {siteContent.home.introTitle}
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-gray-500">{siteContent.home.introParagraphs[0]}</p>
+            </div>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[
+                { step: '01', title: 'Write Your Release', blurb: 'Use our guided editor to craft a professional press release — headline, dateline, body, quotes, and boilerplate. Our editorial checklist keeps you on track.', icon: UserPlus, detail: 'Guided editor · Editorial checklist · Templates' },
+                { step: '02', title: 'Choose Distribution', blurb: 'Select target industries, regions, and media tiers. Add translation, editorial review, or premium outlet targeting as optional upgrades.', icon: Upload, detail: '500+ outlets · Regional targeting · Industry filters' },
+                { step: '03', title: 'Publish & Track', blurb: 'Go live instantly. Your release is indexed by Google News, distributed to journalists, and tracked in real time — views, pickups, and shares.', icon: Radio, detail: 'Google News · Real-time analytics · Pickup alerts' },
+              ].map((item) => (
+                <div key={item.step} className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:shadow-[#F05A28]/8">
+                  {/* Step watermark */}
+                  <span className="absolute right-5 top-4 select-none font-display text-6xl font-black text-gray-100">{item.step}</span>
+                  {/* Icon */}
+                  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F05A28] text-white shadow-md shadow-[#F05A28]/30">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <p className="text-[0.68rem] font-bold uppercase tracking-[0.22em] text-[#F05A28]">Step {item.step}</p>
+                  <h3 className="mt-2 font-display text-xl font-bold text-gray-900">{item.title}</h3>
+                  <p className="mt-2 grow text-sm leading-7 text-gray-500">{item.blurb}</p>
+                  {/* Feature pill */}
+                  <div className="mt-5 rounded-xl bg-orange-50 px-3 py-2.5">
+                    <p className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[#F05A28]/80">{item.detail}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA banner */}
-        <section
-          className="relative overflow-hidden"
-          style={{
-            background: 'linear-gradient(115deg, #5c0a0f 0%, #7a0214 35%, #9a031e 60%, #b01e2a 100%)',
-          }}
-        >
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background:
-                'radial-gradient(ellipse 80% 50% at 20% 40%, rgba(227,100,20,0.45), transparent), radial-gradient(ellipse 60% 40% at 90% 80%, rgba(255,255,255,0.12), transparent)',
-            }}
-            aria-hidden
-          />
-          <div
-            className="absolute inset-0 opacity-[0.08]"
-            style={{
-              backgroundImage: 'repeating-linear-gradient(60deg, rgba(255,255,255,0.35) 0, rgba(255,255,255,0.35) 1px, transparent 1px, transparent 6px)',
-            }}
-            aria-hidden
-          />
-          <div className="relative mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-4 py-12 sm:flex-row sm:items-center sm:px-6 sm:py-14">
-            <div>
-              <p className="font-display text-2xl font-bold text-white [text-shadow:0_1px_12px_rgba(0,0,0,0.2)] sm:text-3xl">
-                Get media coverage for your business with powerful press distribution.
-              </p>
-              <p className="mt-2 max-w-xl text-sm text-white/90 sm:text-base">
-                Ship releases with a consistent look, a dependable archive, and a reader experience that still feels like a real newsroom—not a skinned template.
-              </p>
+        {/* ── LATEST RELEASES ── white ─────────────────────────────── */}
+        <section className="bg-white">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+            <div className="flex flex-col items-start justify-between gap-4 border-b border-gray-100 pb-8 sm:flex-row sm:items-end">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full bg-[#F05A28]/10 px-3 py-1 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-[#F05A28]">
+                  <Clock className="h-3 w-3" /> Live Wire
+                </span>
+                <h2 className="mt-3 font-display text-2xl font-bold text-gray-900 sm:text-3xl">{siteContent.taskSectionHeading}</h2>
+                <p className="mt-1 text-sm text-gray-400">{siteContent.taskSectionDescriptionSuffix}</p>
+              </div>
+              <Link href="/updates" className="inline-flex items-center gap-2 rounded-full border border-[#F05A28]/30 bg-orange-50 px-4 py-2 text-sm font-semibold text-[#F05A28] transition hover:bg-orange-100">
+                Full archive <FileText className="h-4 w-4" />
+              </Link>
             </div>
-            <a
-              href="/register"
-              className="inline-flex shrink-0 items-center justify-center gap-1 rounded-full bg-[#e36414] px-7 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-black/25 [transition:transform_0.2s] hover:-translate-y-0.5 hover:bg-[#c45a12]"
-            >
-              Sign up free
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
+
+            <ul className="divide-y divide-gray-100">
+              {(posts.length ? posts : []).map((post) => (
+                <li key={post.id}>
+                  <Link href={`/updates/${post.slug}`} className="group flex items-start gap-4 py-5 sm:gap-6">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange-50 transition group-hover:bg-[#F05A28] group-hover:text-white">
+                      <Newspaper className="h-3.5 w-3.5 text-[#F05A28] transition group-hover:text-white" />
+                    </span>
+                    <p className="min-w-0 flex-1 text-base font-semibold leading-snug text-gray-800 transition group-hover:text-[#F05A28] sm:text-lg">{post.title}</p>
+                    <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-gray-300 transition group-hover:translate-x-0.5 group-hover:text-[#F05A28]" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {posts.length === 0 && (
+              <p className="mt-6 rounded-2xl border border-dashed border-gray-200 bg-gray-50 p-6 text-sm text-gray-400">
+                New press releases will appear here as they are published.{' '}
+                <Link className="font-semibold text-[#F05A28] underline" href="/updates">Open the full archive</Link>.
+              </p>
+            )}
           </div>
         </section>
 
-        {/* About blurb */}
-        <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-          <div className="text-center">
-            <Sparkles className="mx-auto h-5 w-5 text-[#e36414]" />
-            <h2 className="mt-3 font-display text-2xl font-bold text-[var(--brand-ink)] sm:text-3xl">
-              Welcome to the ExpressA online news distribution service
-            </h2>
-          </div>
-          <div className="prose prose-neutral mt-7 max-w-none text-[0.98rem] leading-8 [text-rendering:optimizeLegibility]">
-            <p className="text-[#3a2c30]">
-              {siteContent.home.introParagraphs[0]} {siteContent.home.introParagraphs[1]}{' '}
-              {siteContent.home.sidePoints[2]}
-            </p>
-            <p className="text-[var(--brand-muted)]">
-              Questions about timing, add-ons, or a higher-volume program? Reach the desk on{' '}
-              <Link href="/contact" className="font-semibold text-[#9a031e] underline-offset-2 hover:underline">
-                the contact page
-              </Link>
-              .
-            </p>
+        {/* ── SERVICES ── dark bg ───────────────────────────────────── */}
+        <section style={{ background: 'linear-gradient(160deg, #0f0700 0%, #1e0c00 50%, #2d1500 100%)' }}>
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#F7931E]/30 bg-[#F7931E]/12 px-4 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-[#F7931E]">
+                  What We Offer
+                </span>
+                <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                  Everything you need to get covered.
+                </h2>
+                <p className="mt-3 text-white/55">{siteContent.home.introParagraphs[1]}</p>
+                <ul className="mt-8 space-y-3">
+                  {services.map((s) => (
+                    <li key={s.title} className="flex gap-3 rounded-xl border border-white/8 bg-white/5 p-4 transition hover:border-[#F05A28]/40 hover:bg-white/8">
+                      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F05A28]/20 text-[#F7931E]">
+                        <s.icon className="h-4 w-4" />
+                      </span>
+                      <div>
+                        <p className="font-semibold text-white">{s.title}</p>
+                        <p className="mt-1 text-sm leading-7 text-white/50">{s.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Phone mockup */}
+              <div className="relative justify-self-center lg:sticky lg:top-24 lg:justify-self-end">
+                <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full opacity-25" style={{ background: 'radial-gradient(circle, #F7931E, transparent 70%)' }} aria-hidden />
+                <div className="absolute -bottom-6 -left-6 h-20 w-20 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, #F05A28, transparent 70%)' }} aria-hidden />
+                <div className="relative w-[min(100%,290px)]">
+                  <Image
+                    src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=900&h=1200&fit=crop&q=60&auto=format"
+                    alt="Presslyy mobile dashboard"
+                    width={580} height={780}
+                    className="h-auto w-full rounded-[2rem] object-cover shadow-2xl ring-1 ring-white/10"
+                  />
+                  <div className="absolute inset-x-5 top-5 rounded-xl border border-white/20 bg-black/55 p-3 text-[0.58rem] font-bold uppercase tracking-widest text-white/80 backdrop-blur-sm">
+                    {SITE_CONFIG.name} · Live Dashboard
+                  </div>
+                  <div className="absolute -right-5 bottom-20 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-xl">
+                    <p className="text-[0.75rem] font-bold text-[#F05A28]">3 pickups today</p>
+                    <p className="mt-0.5 text-[0.62rem] text-gray-400">Reuters · Forbes · Yahoo</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Trust cards */}
+            <div className="mt-14 grid gap-4 md:grid-cols-3">
+              {[
+                { icon: Zap, title: 'Live in Under 1 Hour', desc: 'Submit your release and it goes live on Presslyy and starts distributing to media contacts within 60 minutes.' },
+                { icon: Shield, title: 'Editorial Quality Check', desc: 'Every release is reviewed by our editorial team before distribution to ensure it meets professional media standards.' },
+                { icon: TrendingUp, title: 'Measurable Results', desc: 'Track every pickup, view, and share in real time. Know exactly which outlets covered your story and when.' },
+              ].map((t) => (
+                <div key={t.title} className="flex flex-col items-center rounded-2xl border border-white/8 bg-white/5 p-6 text-center transition hover:border-[#F05A28]/30 hover:bg-white/8">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F05A28] text-white shadow-lg shadow-[#F05A28]/30">
+                    <t.icon className="h-5 w-5" />
+                  </span>
+                  <p className="mt-4 text-base font-bold text-white">{t.title}</p>
+                  <p className="mt-2 text-sm leading-7 text-white/50">{t.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
+
+        {/* ── TESTIMONIALS ── light gray ────────────────────────────── */}
+        <section className="bg-gray-50">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+            <div className="text-center">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#F05A28]/10 px-4 py-1.5 text-[0.7rem] font-bold uppercase tracking-[0.22em] text-[#F05A28]">
+                Client Stories
+              </span>
+              <h2 className="mt-4 font-display text-2xl font-bold text-gray-900 sm:text-3xl">
+                Trusted by PR teams, founders, and agencies worldwide.
+              </h2>
+            </div>
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {testimonials.map((t) => (
+                <div key={t.name} className="flex flex-col rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                  <div className="flex gap-0.5 text-[#F7931E]">
+                    {Array.from({ length: 5 }).map((_, i) => <span key={i} className="text-sm">★</span>)}
+                  </div>
+                  <p className="mt-4 grow text-sm leading-7 text-gray-600">"{t.quote}"</p>
+                  <div className="mt-5 flex items-center gap-3 border-t border-gray-100 pt-4">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F05A28] text-xs font-bold text-white">
+                      {t.name.charAt(0)}
+                    </span>
+                    <div>
+                      <p className="text-sm font-bold text-gray-900">{t.name}</p>
+                      <p className="text-xs text-gray-400">{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── CTA BANNER ── orange gradient ────────────────────────── */}
+        <section className="relative overflow-hidden" style={{ background: 'linear-gradient(115deg, #c43d10 0%, #F05A28 45%, #F7931E 100%)' }}>
+          <div className="pointer-events-none absolute inset-0 opacity-[0.08]" style={{ backgroundImage: 'repeating-linear-gradient(60deg, rgba(255,255,255,0.6) 0, rgba(255,255,255,0.6) 1px, transparent 1px, transparent 10px)' }} aria-hidden />
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 opacity-10" style={{ background: 'radial-gradient(ellipse at right, white, transparent 70%)' }} aria-hidden />
+
+          <div className="relative mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-4 py-14 sm:flex-row sm:items-center sm:px-6 sm:py-16">
+            <div>
+              <p className="font-display text-2xl font-bold text-white sm:text-3xl">{siteContent.cta.title}</p>
+              <p className="mt-2 max-w-xl text-sm text-white/80 sm:text-base">{siteContent.cta.description}</p>
+              <div className="mt-5 flex flex-wrap gap-4">
+                {['Free plan available', 'No credit card required', 'Live in under 1 hour'].map((f) => (
+                  <span key={f} className="flex items-center gap-1.5 text-sm text-white/80">
+                    <CheckCircle2 className="h-4 w-4 text-white" /> {f}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+              <a href={siteContent.cta.primaryCta.href} className="inline-flex items-center justify-center gap-1.5 rounded-full bg-white px-7 py-3.5 text-sm font-extrabold text-[#F05A28] shadow-lg transition hover:-translate-y-0.5 hover:bg-gray-50">
+                {siteContent.cta.primaryCta.label} <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ── ABOUT ── white ────────────────────────────────────────── */}
+        <section className="bg-white">
+          <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+            <div className="text-center">
+              <Sparkles className="mx-auto h-5 w-5 text-[#F7931E]" />
+              <h2 className="mt-3 font-display text-2xl font-bold text-gray-900 sm:text-3xl">About {SITE_CONFIG.name}</h2>
+            </div>
+            <div className="mt-7 space-y-4 text-[0.98rem] leading-8 text-gray-600">
+              <p>Presslyy is a modern press release distribution platform built for businesses of every size — from early-stage startups announcing their first funding round to enterprise communications teams managing dozens of releases a month.</p>
+              <p>We believe every company deserves professional media coverage. Our platform combines editorial expertise, a verified journalist network, and real-time analytics to give your story the best possible chance of being picked up, shared, and remembered.</p>
+              <p>Questions about plans, distribution reach, or custom enterprise packages?{' '}
+                <Link href="/contact" className="font-semibold text-[#F05A28] underline-offset-2 hover:underline">Talk to our team</Link>.
+              </p>
+            </div>
+          </div>
+        </section>
+
       </main>
       <Footer />
     </div>

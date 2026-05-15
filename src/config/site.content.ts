@@ -2,84 +2,89 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Press & media distribution',
+    tagline: 'Press release distribution platform',
   },
   footer: {
-    tagline: 'Your wire for timely company news',
+    tagline: 'Get your story in front of the journalists who matter.',
   },
   hero: {
-    badge: 'Distribution',
-    title: ['Release Media Distribution'],
+    badge: 'Press Release Distribution',
+    title: ['Publish. Distribute. Get Covered.'],
     description:
-      'Send polished announcements, reach journalists and search surfaces, and keep a clean public archive that reads like a professional newswire.',
+      'Presslyy is the fastest way to write, publish, and distribute professional press releases to thousands of journalists, newsrooms, and media outlets — all from one dashboard.',
     primaryCta: {
-      label: 'Send a Release Media',
+      label: 'Publish Your First Release',
       href: '/register',
     },
     secondaryCta: {
-      label: 'Learn more',
+      label: 'See how it works',
       href: '/about',
     },
-    searchPlaceholder: 'Search releases',
+    searchPlaceholder: 'Search press releases…',
     focusLabel: 'Latest',
-    featureCardBadge: 'Wire',
-    featureCardTitle: 'Structured releases, faster scanning.',
+    featureCardBadge: 'Newswire',
+    featureCardTitle: 'Structured releases built for media pickup.',
     featureCardDescription:
-      'Headlines, categories, and reading pages are tuned for discovery—without turning your site into a generic blog template.',
+      'Every release on Presslyy is formatted to editorial standards — making it easy for journalists to scan, quote, and publish your story.',
   },
   home: {
     metadata: {
-      title: 'Release media distribution & latest company news',
+      title: 'Press Release Distribution & Media Coverage | Presslyy',
       description:
-        'Distribute media announcements, product launches, and public statements with ExpressA News Daily’s press archive and reader-friendly story pages.',
-      openGraphTitle: 'Release media distribution & latest company news',
+        'Publish and distribute press releases to top journalists, newsrooms, and media outlets worldwide. Presslyy makes professional PR accessible to every business.',
+      openGraphTitle: 'Press Release Distribution & Media Coverage | Presslyy',
       openGraphDescription:
-        'A professional press wire experience: distribution positioning, scannable archives, and premium story presentation.',
+        'Write, publish, and distribute press releases that get picked up. Reach journalists, boost SEO, and build your brand with Presslyy.',
       keywords: [
-        'release media',
-        'newswire',
-        'media distribution',
+        'press release distribution',
+        'newswire service',
+        'media coverage',
+        'PR distribution',
+        'press release platform',
+        'Presslyy',
+        'publish press release',
+        'journalist outreach',
+        'media relations',
         'company announcements',
-        'PR',
-        'ExpressA News Daily',
       ],
     },
     introBadge: 'How it works',
-    introTitle: 'From profile to published release—without the busywork.',
+    introTitle: 'From draft to distributed — in three simple steps.',
     introParagraphs: [
-      'ExpressA News Daily is built for teams that ship announcements often: a focused distribution story, a calm archive, and reading pages that feel editorial—not like a generic CMS theme.',
-      'The homepage highlights your latest wire items, the services you can add (translation, extra syndication, support), and the trust signals partners expect from a media-facing surface.',
+      'Presslyy is built for PR teams, founders, and communications professionals who need to get their story out fast. Write once, reach everywhere — with a clean archive that journalists can browse and cite.',
+      'Every release gets its own SEO-optimised page, a shareable link, and automatic distribution to our media partner network. No technical setup. No agency fees. Just results.',
     ],
     sideBadge: 'What you get',
     sidePoints: [
-      'Single primary lane for press coverage with clean headline rhythm.',
-      'Search-friendly archive with category context.',
-      'Story pages designed for long-form reading and shareability.',
+      'Instant distribution to 500+ media outlets and journalist contacts.',
+      'SEO-optimised release pages indexed by Google News.',
+      'Real-time analytics showing views, pickups, and reach.',
     ],
     primaryLink: {
-      label: 'Browse releases',
-      href: '/press',
+      label: 'Browse press releases',
+      href: '/updates',
     },
     secondaryLink: {
-      label: 'Contact distribution',
+      label: 'Talk to our team',
       href: '/contact',
     },
   },
   cta: {
-    badge: 'Grow coverage',
-    title: 'Ready to put your next story in front of the right readers?',
-    description: 'Start an account, upload your press materials, and publish to your ExpressA wire archive in minutes.',
+    badge: 'Start today',
+    title: 'Ready to get your story in front of the right journalists?',
+    description:
+      'Join thousands of brands and PR professionals who use Presslyy to publish press releases that get noticed, shared, and cited.',
     primaryCta: {
-      label: 'Contact us',
-      href: '/contact',
+      label: 'Get started free',
+      href: '/register',
     },
     secondaryCta: {
       label: 'View pricing',
       href: '/pricing',
     },
   },
-  taskSectionHeading: 'Release media',
-  taskSectionDescriptionSuffix: 'The newest items on your newswire.',
+  taskSectionHeading: 'Latest Press Releases',
+  taskSectionDescriptionSuffix: 'Fresh from the wire — the most recent releases published on Presslyy.',
 } as const
 
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
@@ -112,8 +117,9 @@ export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'soci
     description: 'Open PDFs and downloadable files.',
   },
   mediaDistribution: {
-    title: 'Latest release media',
-    description: 'Browse the full wire: headlines, categories, and dates.',
+    title: 'Press Release Archive',
+    description:
+      'Browse the full Presslyy newswire — search by company, topic, or date to find the release you need.',
   },
 }
 
@@ -132,14 +138,14 @@ export const taskIntroCopy: Record<
   comment: { title: 'Comments', paragraphs: ['Commentary and response posts.'], links: [{ label: 'Home', href: '/' }] },
   org: { title: 'Organizations', paragraphs: ['Organization pages and entities.'], links: [{ label: 'Home', href: '/' }] },
   mediaDistribution: {
-    title: 'Release media archive',
+    title: 'Press Release Archive',
     paragraphs: [
-      'Scan the wire by recency, category, and headline. Each item opens into a full release page designed for clear reading, sharing, and follow-up.',
-      'Use search when you are looking for a name, product, or topic that appeared across your announcements.',
+      'Browse every press release published on Presslyy — sorted by date, searchable by company, topic, or keyword. Each release opens into a full editorial page built for reading, sharing, and citation.',
+      'Looking for a specific announcement? Use the search bar to find releases by company name, product, executive, or subject matter across the entire Presslyy archive.',
     ],
     links: [
       { label: 'Home', href: '/' },
-      { label: 'Search', href: '/search' },
+      { label: 'Search releases', href: '/search' },
     ],
   },
 }

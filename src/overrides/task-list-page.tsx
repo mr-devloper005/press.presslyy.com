@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Search, SlidersHorizontal } from 'lucide-react'
+import { Search, SlidersHorizontal, Newspaper, ChevronRight, ArrowUpRight } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { buildPostUrl, fetchTaskPosts } from '@/lib/task-data'
@@ -17,17 +17,17 @@ export const TASK_LIST_PAGE_OVERRIDE_ENABLED = true
 
 function cnPill(active: boolean) {
   return cn(
-    'rounded-full border px-3 py-1.5 text-xs font-semibold [transition:background_0.2s,border_0.2s]',
+    'rounded-full border px-3 py-1.5 text-xs font-semibold transition-all',
     active
-      ? 'border-[var(--brand-red)] bg-slate-100 text-[var(--brand-red)]'
-      : 'border-slate-300/80 bg-white text-[var(--brand-muted)] hover:border-slate-400',
+      ? 'border-[#F05A28] bg-[#F05A28] text-white shadow-sm shadow-[#F05A28]/30'
+      : 'border-gray-200 bg-white text-gray-500 hover:border-[#F05A28]/40 hover:text-[#F05A28]',
   )
 }
 
 function excerpt(text?: string | null) {
   const value = (text || '').trim()
   if (!value) return 'Open the full release for details, quotes, and context.'
-  return value.length > 200 ? value.slice(0, 197).trimEnd() + '…' : value
+  return value.length > 180 ? value.slice(0, 177).trimEnd() + '…' : value
 }
 
 function getPostImage(post: SitePost) {
@@ -64,7 +64,7 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
   const titleAndDesc = taskPageSeo.mediaDistribution
 
   return (
-    <div className="min-h-screen bg-white text-[var(--brand-ink)]">
+    <div className="min-h-screen bg-white text-gray-900">
       <NavbarShell />
       <SchemaJsonLd
         data={{
@@ -81,29 +81,53 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
         }}
       />
       <main>
-        <section className="border-b border-slate-200/80 bg-white">
-          <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500">Wire</p>
-            <h1 className="mt-2 font-display text-4xl font-bold tracking-tight sm:text-5xl">{titleAndDesc.title}</h1>
-            <p className="mt-3 max-w-2xl text-[var(--brand-muted)]">{titleAndDesc.description}</p>
-            <form
-              className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-end"
-              action="/search"
-              method="get"
-            >
+
+        {/* ── PAGE HEADER ── dark hero band ── */}
+        <section
+          className="relative overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #0f0700 0%, #1e0c00 50%, #2d1500 100%)' }}
+        >
+          {/* Subtle grid */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.05]"
+            style={{
+              backgroundImage:
+                'linear-gradient(rgba(255,255,255,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.8) 1px,transparent 1px)',
+              backgroundSize: '60px 60px',
+            }}
+            aria-hidden
+          />
+          {/* Orange glow */}
+          <div
+            className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full opacity-20"
+            style={{ background: 'radial-gradient(circle, #F05A28, transparent 70%)' }}
+            aria-hidden
+          />
+
+          <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#F05A28]/40 bg-[#F05A28]/15 px-4 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.28em] text-[#F7931E]">
+              <Newspaper className="h-3 w-3" /> Newswire
+            </span>
+            <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              {titleAndDesc.title}
+            </h1>
+            <p className="mt-3 max-w-2xl text-white/55">{titleAndDesc.description}</p>
+
+            {/* Search bar */}
+            <form className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center" action="/search" method="get">
               <input type="hidden" name="master" value="1" />
-              <div className="flex flex-1 items-center gap-2 rounded-2xl border border-slate-300/90 bg-white px-4 py-2 shadow-sm">
-                <Search className="h-4 w-4 text-slate-400" />
+              <div className="flex flex-1 items-center gap-3 rounded-2xl border border-white/12 bg-white/8 px-5 py-1 backdrop-blur-sm">
+                <Search className="h-4 w-4 shrink-0 text-white/40" />
                 <input
                   name="q"
-                  className="h-11 w-full min-w-0 border-0 bg-transparent text-sm outline-none placeholder:text-slate-500/70"
+                  className="h-11 w-full min-w-0 border-0 bg-transparent text-sm text-white outline-none placeholder:text-white/35"
                   placeholder="Search titles, companies, and subjects…"
                   aria-label="Search releases"
                 />
               </div>
               <Button
                 type="submit"
-                className="h-12 rounded-2xl bg-[var(--brand-red)] font-semibold text-white hover:bg-[#7a0214]"
+                className="h-12 shrink-0 rounded-2xl bg-[#F05A28] px-6 font-semibold text-white shadow-lg shadow-[#F05A28]/30 hover:bg-[#d44820]"
               >
                 Search
               </Button>
@@ -111,16 +135,15 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-          <div className="mb-6 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-              <SlidersHorizontal className="h-3.5 w-3.5" />
-              Category
+        {/* ── FILTERS + GRID ── */}
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+
+          {/* Category pills */}
+          <div className="mb-8 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-gray-400">
+              <SlidersHorizontal className="h-3.5 w-3.5" /> Filter
             </span>
-            <Link
-              href={taskConfig?.route || '/updates'}
-              className={cnPill(!activeSlug)}
-            >
+            <Link href={taskConfig?.route || '/updates'} className={cnPill(!activeSlug)}>
               All
             </Link>
             {CATEGORY_OPTIONS.slice(0, 12).map((opt) => (
@@ -132,57 +155,89 @@ export async function TaskListPageOverride({ task, category }: { task: TaskKey; 
                 {opt.name}
               </Link>
             ))}
-            <span className="w-full pl-0 text-sm text-[var(--brand-muted)] sm:w-auto sm:pl-2">
-              Tip: use search to match keywords across the full index.
-            </span>
           </div>
 
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 [perspective:800px]">
+          {/* Results count */}
+          {filtered.length > 0 && (
+            <p className="mb-6 text-sm text-gray-400">
+              Showing <span className="font-semibold text-gray-700">{filtered.length}</span> release{filtered.length !== 1 ? 's' : ''}
+              {activeSlug ? ` in "${activeSlug}"` : ''}
+            </p>
+          )}
+
+          {/* Cards grid */}
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((post) => (
               <li key={post.id}>
                 <Link
                   href={buildPostUrl(task, post.slug)}
-                  className="group block h-full overflow-hidden rounded-2xl border border-slate-200/80 bg-white shadow-sm [transition:transform_0.2s_var(--motion-ease),box-shadow_0.2s] hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-300/40"
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:border-[#F05A28]/30 hover:shadow-lg hover:shadow-[#F05A28]/8"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden">
+                  {/* Image */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
                     <ContentImage
                       src={getPostImage(post)}
                       alt=""
                       fill
-                      className="object-cover [transition:transform_0.45s_var(--motion-ease)] group-hover:scale-[1.04]"
+                      className="object-cover transition duration-500 group-hover:scale-[1.04]"
                     />
+                    {/* Category badge */}
                     <div className="absolute left-3 top-3">
-                      <span className="rounded-full bg-white/90 px-2.5 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider text-[var(--brand-red)] shadow">
+                      <span className="rounded-full bg-white/95 px-2.5 py-0.5 text-[0.62rem] font-bold uppercase tracking-wider text-[#F05A28] shadow-sm">
                         {getLabel(post)}
                       </span>
                     </div>
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition group-hover:opacity-100" />
                   </div>
-                  <div className="p-5">
-                    <h2 className="mt-2 line-clamp-2 font-display text-lg font-bold leading-snug text-[var(--brand-ink)] [transition:color_0.2s] group-hover:text-[var(--brand-red)]">
+
+                  {/* Body */}
+                  <div className="flex flex-1 flex-col p-5">
+                    <h2 className="line-clamp-2 font-display text-lg font-bold leading-snug text-gray-900 transition group-hover:text-[#F05A28]">
                       {post.title}
                     </h2>
-                    <p className="mt-2 line-clamp-3 text-sm text-[var(--brand-muted)]">{excerpt(post.summary)}</p>
-                    <p className="mt-3 inline-flex items-center text-sm font-semibold text-[var(--brand-orange)]">
-                      Read release
-                      <span className="ml-1 [transition:transform_0.2s] group-hover:translate-x-0.5">→</span>
+                    <p className="mt-2 line-clamp-3 grow text-sm leading-7 text-gray-500">
+                      {excerpt(post.summary)}
                     </p>
+                    <div className="mt-4 flex items-center gap-1 text-sm font-semibold text-[#F05A28]">
+                      Read release
+                      <ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                    </div>
                   </div>
                 </Link>
               </li>
             ))}
           </ul>
+
+          {/* Empty state */}
           {filtered.length === 0 && (
-            <p className="mt-4 rounded-2xl border border-dashed border-slate-300/90 bg-slate-100/70 p-8 text-center text-[var(--brand-muted)]">
-              No items match that filter.{' '}
-              <Link href={taskConfig?.route || '/updates'} className="font-semibold text-[var(--brand-red)]">
-                View all
-              </Link>
-              , or use{' '}
-              <Link className="font-semibold text-[var(--brand-red)]" href="/search">
-                search
-              </Link>
-              .
-            </p>
+            <div className="mt-8 rounded-2xl border border-dashed border-gray-200 bg-gray-50 p-12 text-center">
+              <Newspaper className="mx-auto h-10 w-10 text-gray-300" />
+              <p className="mt-4 text-base font-semibold text-gray-700">No releases found</p>
+              <p className="mt-1 text-sm text-gray-400">
+                Try a different filter or{' '}
+                <Link href={taskConfig?.route || '/updates'} className="font-semibold text-[#F05A28] hover:underline">
+                  view all releases
+                </Link>
+                .
+              </p>
+            </div>
+          )}
+
+          {/* Bottom CTA */}
+          {filtered.length > 0 && (
+            <div className="mt-14 rounded-2xl border border-gray-100 bg-gray-50 p-8 text-center">
+              <p className="font-display text-xl font-bold text-gray-900">Want your story here?</p>
+              <p className="mt-2 text-sm text-gray-500">
+                Publish your press release on Presslyy and reach 500+ media outlets worldwide.
+              </p>
+              <a
+                href="/register"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#F05A28] px-6 py-3 text-sm font-bold text-white shadow-md shadow-[#F05A28]/25 transition hover:-translate-y-0.5 hover:bg-[#d44820]"
+              >
+                Submit a Release <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
           )}
         </div>
       </main>

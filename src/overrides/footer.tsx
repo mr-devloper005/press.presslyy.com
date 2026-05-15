@@ -1,7 +1,8 @@
+import Image from 'next/image'
 import Link from 'next/link'
+import { Twitter, Linkedin } from 'lucide-react'
 import { SITE_CONFIG } from '@/lib/site-config'
 import { siteContent } from '@/config/site.content'
-import { Twitter, Linkedin } from 'lucide-react'
 
 export const FOOTER_OVERRIDE_ENABLED = true
 
@@ -9,7 +10,7 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: 'Distribution',
     links: [
-      { label: 'Release media', href: '/updates' },
+      { label: 'Press Releases', href: '/updates' },
       { label: 'Search', href: '/search' },
     ],
   },
@@ -39,22 +40,39 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
 
 export function FooterOverride() {
   return (
-    <footer className="mt-auto border-t border-white/10 bg-[#120507] text-white">
+    <footer className="mt-auto border-t border-[#f0d88a] bg-[#1a0e00] text-[#FEFCDB]">
+      {/* Top accent bar */}
+      <div
+        className="h-1 w-full"
+        style={{ background: 'linear-gradient(90deg, #F05A28 0%, #F7931E 50%, #FFF0BC 100%)' }}
+        aria-hidden
+      />
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+          {/* Brand column */}
           <div className="sm:col-span-2">
-            <p className="font-display text-xl font-bold tracking-tight">{SITE_CONFIG.name}</p>
-            <p className="mt-2 text-sm text-white/65">{siteContent.footer.tagline}</p>
-            <p className="mt-4 max-w-sm text-sm leading-7 text-white/55">{SITE_CONFIG.description}</p>
-            <p className="mt-2 text-sm text-white/50">{SITE_CONFIG.domain}</p>
+            <Link href="/" aria-label="Presslyy home">
+              <Image
+                src="/logo-white.svg"
+                alt="Presslyy"
+                width={160}
+                height={40}
+                className="h-9 w-auto"
+              />
+            </Link>
+            <p className="mt-3 text-sm text-[#FFF0BC]/65">{siteContent.footer.tagline}</p>
+            <p className="mt-3 max-w-sm text-sm leading-7 text-[#FFF0BC]/45">{SITE_CONFIG.description}</p>
+            <p className="mt-2 text-sm text-[#FFF0BC]/30">{SITE_CONFIG.domain}</p>
           </div>
+
+          {/* Link columns */}
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-rose-200/90">{col.title}</h3>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-[#F7931E]">{col.title}</h3>
               <ul className="mt-4 space-y-2.5 text-sm">
                 {col.links.map((item) => (
                   <li key={item.label}>
-                    <Link href={item.href} className="text-white/80 transition hover:text-white">
+                    <Link href={item.href} className="text-[#FFF0BC]/70 transition hover:text-[#FFF0BC]">
                       {item.label}
                     </Link>
                   </li>
@@ -63,13 +81,15 @@ export function FooterOverride() {
             </div>
           ))}
         </div>
-        <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-white/50">
+
+        {/* Bottom bar */}
+        <div className="mt-12 flex flex-col gap-4 border-t border-[#FFF0BC]/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-[#FFF0BC]/40">
             © {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-3" aria-label="Social">
             <a
-              className="rounded-full border border-white/15 p-2.5 text-white/70 transition hover:text-white"
+              className="rounded-full border border-[#FFF0BC]/15 p-2.5 text-[#FFF0BC]/60 transition hover:border-[#F7931E]/50 hover:text-[#F7931E]"
               href="https://x.com"
               rel="noreferrer"
               target="_blank"
@@ -77,7 +97,7 @@ export function FooterOverride() {
               <Twitter className="h-4 w-4" />
             </a>
             <a
-              className="rounded-full border border-white/15 p-2.5 text-white/70 transition hover:text-white"
+              className="rounded-full border border-[#FFF0BC]/15 p-2.5 text-[#FFF0BC]/60 transition hover:border-[#F7931E]/50 hover:text-[#F7931E]"
               href="https://www.linkedin.com"
               rel="noreferrer"
               target="_blank"
