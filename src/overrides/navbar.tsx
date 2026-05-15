@@ -2,17 +2,16 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Menu, Search, X } from 'lucide-react'
-import { SITE_CONFIG } from '@/lib/site-config'
-import { siteContent } from '@/config/site.content'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
 export const NAVBAR_OVERRIDE_ENABLED = true
 
 const mainNav = [
-  { label: 'Release media', href: '/updates' },
+  { label: 'Press Releases', href: '/updates' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ] as const
@@ -26,7 +25,9 @@ function NavLink({ href, label, onClick }: { href: string; label: string; onClic
       onClick={onClick}
       className={cn(
         'rounded-lg px-3 py-2 text-sm font-semibold transition-colors',
-        active ? 'bg-white/12 text-white' : 'text-white/90 hover:bg-white/10 hover:text-white',
+        active
+          ? 'bg-[#F05A28]/12 text-[#F05A28]'
+          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900',
       )}
     >
       {label}
@@ -48,54 +49,44 @@ export function NavbarOverride() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 text-white transition-all duration-300',
+        'sticky top-0 z-50 bg-white transition-all duration-300',
         scrolled
-          ? 'border-b border-white/15 shadow-[0_8px_28px_rgba(20,3,9,0.35)]'
-          : 'border-b border-white/10 shadow-[0_1px_0_rgba(255,255,255,0.08)]',
+          ? 'border-b border-gray-200 shadow-[0_4px_20px_rgba(0,0,0,0.06)]'
+          : 'border-b border-gray-100',
       )}
-      style={{
-        backgroundColor: scrolled ? '#4a020f' : '#9a031e',
-      }}
     >
       <div
         className={cn(
-          'mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 transition-all duration-300 sm:px-6',
-          scrolled ? 'h-[3.9rem]' : 'h-[4.25rem]',
+          'mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 transition-all duration-300 sm:px-6',
+          scrolled ? 'h-[3.75rem]' : 'h-[4.25rem]',
         )}
       >
-        <Link
-          href="/"
-          className="group flex min-w-0 items-center gap-2.5 transition-opacity hover:opacity-95"
-        >
-          <span
-            className={cn(
-              'flex shrink-0 items-center justify-center rounded-2xl bg-[#e36414] text-sm font-extrabold text-white shadow-sm ring-1 ring-black/10 transition-all duration-300',
-              scrolled ? 'h-8 w-8' : 'h-9 w-9',
-            )}
-            aria-hidden
-          >
-            E
-          </span>
-          <span className="min-w-0 text-left">
-            <span className="block truncate font-display text-base font-bold tracking-tight sm:text-lg">{SITE_CONFIG.name}</span>
-            <span className="hidden text-[0.6rem] font-medium uppercase tracking-[0.2em] text-white/75 sm:block">
-              {siteContent.navbar.tagline}
-            </span>
-          </span>
+        {/* ── SVG Logo ── */}
+        <Link href="/" className="flex shrink-0 items-center transition-opacity hover:opacity-85" aria-label="Presslyy home">
+          <Image
+            src="/logo.svg"
+            alt="Presslyy"
+            width={160}
+            height={40}
+            priority
+            className={cn('transition-all duration-300', scrolled ? 'h-8 w-auto' : 'h-9 w-auto')}
+          />
         </Link>
 
+        {/* Desktop nav */}
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
           {mainNav.map((item) => (
             <NavLink key={item.href} href={item.href} label={item.label} />
           ))}
         </nav>
 
+        {/* Desktop actions */}
         <div className="hidden items-center gap-2 sm:flex">
           <Button
             size="icon"
             variant="ghost"
             asChild
-            className="rounded-full text-white hover:bg-white/10 hover:text-white"
+            className="rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-900"
           >
             <Link href="/search" aria-label="Search">
               <Search className="h-5 w-5" />
@@ -103,31 +94,22 @@ export function NavbarOverride() {
           </Button>
           <Button
             asChild
-            className={cn(
-              'rounded-full border border-[#e36414] bg-[#e36414] font-semibold text-white shadow-sm transition-colors hover:bg-[#c55210]',
-              scrolled ? 'hover:bg-[#b94c0f]' : 'hover:bg-[#c55210]',
-            )}
+            className="rounded-full bg-[#F05A28] px-5 font-semibold text-white shadow-sm shadow-[#F05A28]/25 transition hover:bg-[#d44820]"
           >
-            <Link href="/register">Start free</Link>
+            <Link href="/register">Submit Release</Link>
           </Button>
         </div>
 
+        {/* Mobile actions */}
         <div className="flex items-center gap-1.5 sm:hidden">
-          <Button
-            size="icon"
-            variant="ghost"
-            asChild
-            className="rounded-full text-white hover:bg-white/10"
-          >
-            <Link href="/search" aria-label="Search">
-              <Search className="h-5 w-5" />
-            </Link>
+          <Button size="icon" variant="ghost" asChild className="rounded-full text-gray-500 hover:bg-gray-100">
+            <Link href="/search" aria-label="Search"><Search className="h-5 w-5" /></Link>
           </Button>
           <Button
             type="button"
             size="icon"
             variant="ghost"
-            className="rounded-full text-white hover:bg-white/10"
+            className="rounded-full text-gray-500 hover:bg-gray-100"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label={open ? 'Close menu' : 'Open menu'}
@@ -137,23 +119,19 @@ export function NavbarOverride() {
         </div>
       </div>
 
+      {/* Mobile menu */}
       {open && (
-        <div className={cn('border-t border-white/10 md:hidden', scrolled ? 'bg-[#5d0210]' : 'bg-[#7a0216]')}>
+        <div className="border-t border-gray-100 bg-white md:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 px-3 py-3">
             {mainNav.map((item) => (
-              <NavLink
-                key={item.href}
-                href={item.href}
-                label={item.label}
-                onClick={() => setOpen(false)}
-              />
+              <NavLink key={item.href} href={item.href} label={item.label} onClick={() => setOpen(false)} />
             ))}
             <Link
               href="/register"
               onClick={() => setOpen(false)}
-              className="mt-1 rounded-lg bg-[#e36414] px-3 py-2.5 text-center text-sm font-bold text-white"
+              className="mt-2 rounded-xl bg-[#F05A28] px-4 py-3 text-center text-sm font-bold text-white"
             >
-              Start free
+              Submit Release
             </Link>
           </div>
         </div>
